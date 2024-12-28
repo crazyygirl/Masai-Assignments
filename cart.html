@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Ecommerce App</title>
+    <link rel="stylesheet" href="./style/index.css">
+</head>
+<body>
+   <div id="nav">
+
+   </div>
+   <div id="cartDesc">
+         
+   </div>
+   <div id="checkout">
+    <button id="checkoutBtn">Checkout</button>   
+
+</div>
+    <div id="cartDiv">
+    
+    </div>
+  
+
+
+</body>
+<script>
+     const cartProducts = () => {
+  const cartProducts = JSON.parse(localStorage.getItem('CartProducts'));
+  const cartCard = document.getElementById('cartDiv');
+  const cartDesc = document.getElementById('cartDesc');
+
+  let totalPrice = 0;
+
+    // console.log(wishlistedProducts);
+    const productCards = cartProducts.map(product => {
+        console.log(product.price)
+        totalPrice += product.price;
+            return `
+              <div class="productCard">
+                <input value="${product.id}" style="display:none" class="productId">
+                <img src="${product.image}" class="productImg" alt="${product.title}">
+                <h3>${product.title}</h3>
+                <h3>price: ${product.price} rupees</h3>
+                <h5>${product.description} </h5>
+                <h3>Rating : ${product.rating.rate}</h3>
+                <div>
+                  <button class="removeBtn">Remove</button>
+                </div>
+                
+              </div>
+            
+              
+            `;
+          }).join('');
+          
+          cartCard.innerHTML = productCards;
+          cartDesc.innerHTML = `<h2>Total Bill :${totalPrice}</h2>`;
+
+
+    // Object.keys(wishlistedProducts).forEach(key => {
+    //   console.log(wishlistedProducts[key]);
+    // });
+    const catalogueElement = document.getElementById('cartDiv');
+    
+
+    catalogueElement.addEventListener("click", (event) => {
+    if (event.target.classList.contains('removeBtn')) {
+        const productCard = event.target.closest('.productCard');
+        const productId = productCard.querySelector('.productId').value;
+        cart = JSON.parse(localStorage.getItem('CartProducts'));
+        cart = cart.filter(product => product.id !== parseInt(productId));
+        localStorage.setItem('CartProducts', JSON.stringify(cart));
+        console.log("Product removed from wishlist");
+        location.reload();
+    } else {
+        console.log("Error: remove button not found");
+    }
+    });
+    
+    const checkout = document.getElementById('checkoutBtn');
+      checkout.addEventListener("click",(event)=>{
+        prompt("Are you sure  to checkout?")
+        setTimeout(()=>{
+            alert("Thanks For Shopping");
+            cart = JSON.parse(localStorage.getItem('CartProducts'));
+            cart = [];
+         localStorage.setItem('CartProducts', JSON.stringify(cart));
+         location.reload();
+
+        },2000)
+      })
+
+
+};
+
+document.addEventListener('DOMContentLoaded', cartProducts);
+
+</script>
+    <script src="./scripts/navbar.js"></script>
+</html>

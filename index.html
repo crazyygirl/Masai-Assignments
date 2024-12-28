@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Ecommerce App</title>
+    <link rel="stylesheet" href="./style/index.css">
+</head>
+<body>
+   <div id="nav">
+
+   </div>
+
+      <div id="buttonDiv">
+        <button id="loading">Load Products</button>
+
+      </div>
+      <div id="catalogue">
+      
+       </div>
+      </div>
+      
+    
+</body>
+<script>
+    const loadProductsButton = document.getElementById('loading');
+    const catalogueElement = document.getElementById('catalogue');
+    
+    // Load products and display them
+    loadProductsButton.addEventListener("click", () => {
+      fetch('https://fakestoreapi.com/products')
+        .then(res => res.json())
+        .then(products => {
+          const productCards = products.map(product => {
+            return `
+              <div class="productCard">
+                <input value="${product.id}" style="display:none" class="productId">
+                <img src="${product.image}" class="productImg" alt="${product.title}">
+                <h3>${product.title}</h3>
+                <h3>price: ${product.price} rupees</h3>
+                <h3>Rating : ${product.rating.rate}</h3>
+                <div>
+                  <button class="wishlistBtn">Add to Wishlist</button>
+                  <button class="cartBtn">Add to Cart</button>
+                </div>
+              </div>
+            `;
+          }).join('');
+    
+          catalogueElement.innerHTML = productCards;
+        })
+        .catch(error => console.error(error));
+    });
+    
+    catalogueElement.addEventListener("click", (event) => {
+      if (event.target.classList.contains('wishlistBtn')) {
+      const productCard = event.target.closest('.productCard');
+      const productId = productCard.querySelector('.productId').value;
+
+      fetch(`https://fakestoreapi.com/products/${productId}`)
+        .then(res => res.json())
+        .then(data => {
+          // Retrieve the existing wishlist from localStorage (or initialize as an empty object)
+          let existingWishlist = localStorage.getItem("WishlistedProducts");
+
+          // If no existing wishlist or it's not a valid array, initialize an empty array
+          try {
+            existingWishlist = JSON.parse(existingWishlist);
+            if (!Array.isArray(existingWishlist)) {
+              existingWishlist = [];
+            }
+          } catch (e) {
+            existingWishlist = [];
+          }
+
+          // Check if the product is already in the wishlist (by checking productId)
+          if (!existingWishlist.some(product => product.id === data.id)) {
+            // Add the new product to the wishlist array
+            existingWishlist.push(data);
+
+            // Save the updated wishlist back to localStorage
+            localStorage.setItem("WishlistedProducts", JSON.stringify(existingWishlist));
+
+            // Optionally, notify the user that the product was added
+            console.log("added to your wishlist!");
+          } else {
+            console.log("already in your wishlist");
+          }
+        })
+        .catch(error => {
+          console.error("Error adding to wishlist:", error);
+        });
+  }
+});
+
+     catalogueElement.addEventListener("click",(event)=>{
+     if(event.target.classList.contains('cartBtn')){
+      const productCard = event.target.closest('.productCard')
+      const productId = productCard.querySelector('.productId').value;
+      fetch(`https://fakestoreapi.com/products/${productId}`)
+      .then(res=>res.json())
+      .then(data =>{
+        let existingcart = localStorage.getItem("CartProducts")
+        try {
+            existingcart = JSON.parse(existingcart);
+            if (!Array.isArray(existingcart)) {
+              existingcart = [];
+            }
+          } catch (e) {
+            existingcart = [];
+          }
+        if (!existingcart.some(product => product.id === data.id)) {
+          existingcart.push(data);
+
+          let cartProducts = localStorage.setItem("CartProducts",JSON.stringify(existingcart))
+          console.log("added")
+
+        }
+        else{
+          console.log("already added increase quantity in Cart")
+        }
+      })
+      .catch(error =>{
+        console.error("Error adding to wishlist:", error);
+
+      })
+
+     }
+  
+     })
+    </script>
+    
+    <script src="./scripts/navbar.js"></script>
+</html>

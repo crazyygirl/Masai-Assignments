@@ -1,0 +1,87 @@
+
+#nav{
+    display: flex;
+   
+    background-color: rgb(142, 0, 102);
+    color: white;
+}
+ul{
+    
+    display: flex;
+    flex-direction: row;
+    gap:100px;
+    margin: 25px 0 0 300px;
+}
+li{
+    text-decoration: none;
+  
+}
+a{
+    color: white;
+  text-decoration: none;
+  font-size: 20px;
+}
+#catalogue{
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(4,375px);
+}
+#catalogue_wishlist{
+    margin: 50px 0 0 20px;
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(3,375px);
+}
+#cartDiv{
+    margin: 50px 0 0 20px;
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(2,375px);  
+}
+
+.productCard{
+    height:min-content;
+    width: 85%;
+    border: 5px solid  rgb(142, 0, 102);
+    color:black
+}
+.productImg{
+    width: 80%;
+    height:300px;
+}
+#loading{
+    background-color:  rgb(142, 0, 102);
+    color: white;
+    width: 150px;
+    height: 30px;
+    border-radius: 10px;
+    margin: 50px;
+
+}
+button{
+    background-color:  rgb(142, 0, 102);
+    color: white;
+    width: 150px;
+    height: 30px;
+    border-radius: 10px;
+     margin: 10px 0 20px 5px;
+}
+#buttonDiv{
+    display: flex;
+    justify-content: flex-end;
+}
+#cartDesc{
+    display: flex;
+justify-content: flex-end;
+margin: 0 100px 0 0;
+}
+#checkout{
+    display: flex;
+justify-content: flex-end;
+margin: 0 60px 0 0;
+}
+#checkout>button{
+    width: 200px;
+    height: 50px;  
+}
+
